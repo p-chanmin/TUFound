@@ -9,8 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -26,8 +29,8 @@ public class MessageService {
         Message message = new Message();
         message.setReceiver(receiver);
         message.setSender(sender);
+        message.setDate(LocalDateTime.now());
 
-        message.setTitle(messageDto.getTitle());
         message.setContent(messageDto.getContent());
         message.setDeletedByReceiver(false);
         message.setDeletedBySender(false);
@@ -36,12 +39,64 @@ public class MessageService {
         return MessageDto.toDto(message);
     }
 
+    @Transactional(readOnly = true)
+    public List<MessageDto> allMessage(User user) {
+        // 전체 편지함 불러오기
+        // 한 명의 유저가 주고 받은 메세지의 최신 1개만 추출
+        List<MessageDto> messageDtos = new ArrayList<>();
+
+        List<Integer> allId = new ArrayList<>();
+
+        List<MessageDto> received = receivedMessage(user);
+        List<MessageDto> sent = sentMessage(user);
+
+        allId.addAll(
+                sent.stream().map(m -> m.getReceiverId())
+                        .distinct()
+                        .collect(Collectors.toList()));
+        allId.addAll(
+                received.stream().map(m -> m.getSenderId())
+                        .distinct()
+                        .collect(Collectors.toList()));
+        allId = allId.stream().distinct().collect(Collectors.toList());
+
+        messageDtos.addAll(received);
+        messageDtos.addAll(sent);
+
+        List<MessageDto> messageRooms = allId.stream().map(i ->
+                messageDtos.stream()
+                        .filter(m -> m.getReceiverId() == i || m.getSenderId() == i)
+                        .collect(Collectors.toList())
+        ).map(l -> l.stream()
+                        .sorted(Comparator.comparing(MessageDto::getDate).reversed())
+                        .collect(Collectors.toList()).get(0)
+                ).collect(Collectors.toList());
+
+        return messageRooms;
+    }
+    @Transactional(readOnly = true)
+    public List<MessageDto> getMessageRoom(User user, Integer otherId) {
+        // otherId 유저와 주고받은 편지함 불러오기
+        List<MessageDto> messageDtos = new ArrayList<>();
+
+        List<MessageDto> received = receivedMessage(user);
+        List<MessageDto> sent = sentMessage(user);
+
+        messageDtos.addAll(received);
+        messageDtos.addAll(sent);
+
+        List<MessageDto> messageRoom = messageDtos.stream()
+                .filter(m -> m.getReceiverId() == otherId || m.getSenderId() == otherId)
+                .sorted(Comparator.comparing(MessageDto::getDate).reversed())
+                .collect(Collectors.toList());
+
+        return messageRoom;
+    }
 
     @Transactional(readOnly = true)
     public List<MessageDto> receivedMessage(User user) {
         // 받은 편지함 불러오기
         // 한 명의 유저가 받은 모든 메시지
-        // 추후 JWT를 이용해서 재구현 예정
         List<Message> messages = messageRepository.findAllByReceiver(user);
         List<MessageDto> messageDtos = new ArrayList<>();
 
@@ -80,7 +135,6 @@ public class MessageService {
     public List<MessageDto> sentMessage(User user) {
         // 보낸 편지함 불러오기
         // 한 명의 유저가 받은 모든 메시지
-        // 추후 JWT를 이용해서 재구현 예정
         List<Message> messages = messageRepository.findAllBySender(user);
         List<MessageDto> messageDtos = new ArrayList<>();
 
