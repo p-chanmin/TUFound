@@ -1,6 +1,6 @@
 package com.example.firstproject.controller;
 
-import com.example.firstproject.Service.MessageService;
+import com.example.firstproject.service.MessageService;
 import com.example.firstproject.dto.MessageDto;
 import com.example.firstproject.entity.Message;
 import com.example.firstproject.entity.User;

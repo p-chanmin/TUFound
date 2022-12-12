@@ -1,4 +1,4 @@
-package com.example.firstproject.Service;
+package com.example.firstproject.service;
 
 import com.example.firstproject.dto.MessageDto;
 import com.example.firstproject.entity.Message;
