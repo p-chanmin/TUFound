@@ -1,6 +1,6 @@
 package com.example.firstproject.controller;
 
-import com.example.firstproject.Service.MessageService;
+import com.example.firstproject.service.MessageService;
 import com.example.firstproject.dto.MessageDto;
 import com.example.firstproject.entity.Message;
 import com.example.firstproject.entity.User;
@@ -21,7 +21,7 @@ public class MessageController {
     private final MessageRepository messageRepository;
 
 
-    Integer loginUserId = 2; // 임의의 유저 정보, 로그인 기능 구현 후 현재 로그인 된 유저의 정보를 넘겨줘야함
+    Long loginUserId = 2L; // 임의의 유저 정보, 로그인 기능 구현 후 현재 로그인 된 유저의 정보를 넘겨줘야함
     @ApiOperation(value = "전체 편지함 읽기", notes = "전체 편지함 확인")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/messages")
@@ -35,7 +35,7 @@ public class MessageController {
     @ApiOperation(value = "채팅방 읽기", notes = "해당 유저와 전체 쪽지 내용 확인")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/messages/{id}")
-    public Response<?> getMessageRoom(@PathVariable("id") Integer id) {
+    public Response<?> getMessageRoom(@PathVariable("id") Long id) {
         User user = userRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
@@ -59,7 +59,7 @@ public class MessageController {
     @ApiOperation(value = "쪽지 삭제하기", notes = "쪽지를 삭제합니다.")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/messages/delete/{id}")
-    public Response<?> deleteMessage(@PathVariable("id") Integer id) {
+    public Response<?> deleteMessage(@PathVariable("id") Long id) {
         User user = userRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
@@ -98,7 +98,7 @@ public class MessageController {
 
     @ApiOperation(value = "받은 쪽지 삭제하기", notes = "받은 쪽지를 삭제합니다.")
     @ResponseStatus(HttpStatus.OK)
-    public Response<?> deleteReceivedMessage(@PathVariable("id") Integer id) {
+    public Response<?> deleteReceivedMessage(@PathVariable("id") Long id) {
         User user = userRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
@@ -108,7 +108,7 @@ public class MessageController {
 
     @ApiOperation(value = "보낸 쪽지 삭제하기", notes = "보낸 쪽지를 삭제합니다.")
     @ResponseStatus(HttpStatus.OK)
-    public Response<?> deleteSentMessage(@PathVariable("id") Integer id) {
+    public Response<?> deleteSentMessage(@PathVariable("id") Long id) {
         User user = userRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });

@@ -1,4 +1,4 @@
-package com.example.firstproject.Service;
+package com.example.firstproject.service;
 
 import com.example.firstproject.dto.MessageDto;
 import com.example.firstproject.entity.Message;
@@ -45,7 +45,7 @@ public class MessageService {
         // 한 명의 유저가 주고 받은 메세지의 최신 1개만 추출
         List<MessageDto> messageDtos = new ArrayList<>();
 
-        List<Integer> allId = new ArrayList<>();
+        List<Long> allId = new ArrayList<>();
 
         List<MessageDto> received = receivedMessage(user);
         List<MessageDto> sent = sentMessage(user);
@@ -75,7 +75,7 @@ public class MessageService {
         return messageRooms;
     }
     @Transactional(readOnly = true)
-    public List<MessageDto> getMessageRoom(User user, Integer otherId) {
+    public List<MessageDto> getMessageRoom(User user, Long otherId) {
         // otherId 유저와 주고받은 편지함 불러오기
         List<MessageDto> messageDtos = new ArrayList<>();
 
@@ -111,7 +111,7 @@ public class MessageService {
 
     // 받은 편지 삭제
     @Transactional
-    public Object deleteMessageByReceiver(int id, User user) {
+    public Object deleteMessageByReceiver(Long id, User user) {
         Message message = messageRepository.findById(id).orElseThrow(() -> {
             return new IllegalArgumentException("메시지를 찾을 수 없습니다.");
         });
@@ -150,7 +150,7 @@ public class MessageService {
 
     // 보낸 편지 삭제
     @Transactional
-    public Object deleteMessageBySender(int id, User user) {
+    public Object deleteMessageBySender(Long id, User user) {
         Message message = messageRepository.findById(id).orElseThrow(() -> {
             return new IllegalArgumentException("메시지를 찾을 수 없습니다.");
         });

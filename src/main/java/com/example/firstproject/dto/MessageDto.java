@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MessageDto {
 
-    private Integer id;
+    private Long id;
     private String content;
     private LocalDateTime date;
     private String senderName;
     private String receiverName;
-    private Integer senderId;
-    private Integer receiverId;
+    private Long senderId;
+    private Long receiverId;
 
     public static MessageDto toDto(Message message) {
         return new MessageDto(
