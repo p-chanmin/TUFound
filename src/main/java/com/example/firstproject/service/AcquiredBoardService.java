@@ -43,7 +43,7 @@ public class AcquiredBoardService {
 
         String originalFilename = originalFilename(dto.getImgFile());
         String storeFilename = storeFile(dto.getImgFile());
-        // 추후에 변경
+        // 추후에 서비스 이용으로 변경
         User writer = userRepository.findById(dto.getWriterId()).orElseThrow(EntityNotFoundException::new);
 
         AcquiredBoard acquiredBoard = acquiredBoardMapper.mapToEntity(dto, writer, originalFilename,storeFilename);

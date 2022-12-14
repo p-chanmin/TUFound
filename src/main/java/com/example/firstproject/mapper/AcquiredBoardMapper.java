@@ -27,7 +27,7 @@ public class AcquiredBoardMapper {
         return AcquiredBoardResponse.builder()
                 .id(entity.getId())
                 .writerId(entity.getWriter().getId())
-                .nickName(entity.getWriter().getNickName())
+                .nickName(entity.getWriter().getUsername())
                 .title(entity.getTitle())
                 .content(entity.getContent())
                 .lat(entity.getLat())
