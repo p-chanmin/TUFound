@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/gaesipan.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <script src="script/location.js"></script>
+    <title>TUFOUND</title>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div class="contaier">
+          <div class="navbar-header">
+            <button class="toggle">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <a href="" class="navbar-brand">TUFOUND</a>
+          </div>
+          <!-- navbar-header -->
+
+          <ul class="nav navcollaps">
+            <li><a href="#">게시글</a></li>
+            <li><a href="#">글쓰기</a></li>
+            <li><a href="#">쪽지</a></li>
+            <li><a href="#">쪽지보관</a></li>
+            <li><a href="#">로그아웃</a></li>
+          </ul>
+        </div>
+        <!-- contaier -->
+      </div>
+      <!-- navbar -->
+    </header>
+
+    <section>
+      <div id="dropzone">
+        <form action="https://httpbin.org/post" class="dropzone needsclick" id="demo-upload">
+          <div class="dz-message needsclick">
+            <span class="text">
+              <img src="http://www.freeiconspng.com/uploads/------------------------------iconpngm--22.png" alt="Camera" />
+              Drop files here or click to upload.
+            </span>
+            <span class="plus">+</span>
+          </div>
+        </form>
+      </div>
+
+      <!-- Google Font -->
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+
+      <!-- Plugin -->
+      <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css" />
+      <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    </section>
+
+    <aside>
+      <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+      <![endif]-->
+      <div>
+        <h1>물건을 분실했던 장소를 알려주세요.</h1>
+      </div>
+      <div id="leafletmap"></div>
+      <i class="fa fa-map-marker"></i>
+      <button class="pure-button pure-button-primary">Get my location</button>
+    </aside>
+
+    <article>
+      <div class="ui_container" sx="200">
+        <div class="ui_border">
+          <div class="border_cont">
+            <textarea name="" id="" cols="200" rows="3" placeholder="분실일을 입력하세요."></textarea>
+          </div>
+          <textarea name="" id="" cols="200" rows="3" placeholder="제목을 입력하세요."></textarea>
+          <textarea name="" id="" cols="200" rows="10" placeholder="내용을 입력하세요."></textarea>
+          <div class="btn_area">
+            <input type="submit" value="글쓰기" class="ui_btn btn_inline btn_emph" />
+          </div>
+        </div>
+      </div>
+    </article>
+  </body>
+</html>
