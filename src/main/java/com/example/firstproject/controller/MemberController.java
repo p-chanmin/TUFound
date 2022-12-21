@@ -15,7 +15,7 @@ public class MemberController {
     // 메인 페이지
     @GetMapping("/")
     public String index() {
-        return "/login";
+        return "/index";
     }
 
     // 회원가입 페이지
