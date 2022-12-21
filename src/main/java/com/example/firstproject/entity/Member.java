@@ -1,21 +1,21 @@
 package com.example.firstproject.entity;
 
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table(name = "member")
-public class MemberEntity {
+public class Member implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    //id값 primary key로 주고 auto increment
     private Long id;
+
+    @Column(length = 20, nullable = false)
+    private String username;
 
     @Column(length = 20, nullable = false)
     private String email;
@@ -24,9 +24,12 @@ public class MemberEntity {
     private String password;
 
     @Builder
-    public MemberEntity(Long id, String email, String password) {
+    public Member(Long id, String email, String username, String password) {
         this.id = id;
+        this.username = username;
         this.email = email;
         this.password = password;
     }
+
+    protected Member() {}
 }
