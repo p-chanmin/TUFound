@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TUFOUND</title>
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Lily+Script+One);
+    * {
+      margin: 0;
+      padding: 0;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    a {
+      text-decoration: none;
+    }
+    a:hover {
+      color: #fff;
+    }
+    .navbar {
+      height: 60px;
+      background: linear-gradient(#5b5c60, #0f1010);
+      background: -webkit-linear-gradient(#5b5c60, #0f1010);
+      background: -moz-linear-gradient(#5b5c60, #0f1010);
+      font-family: arial;
+    }
+    .contaier {
+      margin: auto;
+    }
+    .navbar-header {
+      padding: 0 0;
+    }
+    .navbar-brand {
+      font-family: "Lily Script One", arial;
+      color: #e5e7ee;
+      padding: 0 20px 0px 20px;
+      height: 60px;
+      line-height: 60px;
+      text-align: center;
+      margin-right: 5px;
+      display: block;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    }
+    .toggle {
+      float: left;
+      width: 70px;
+      height: 40px;
+      padding-top: 2px;
+      position: relative;
+      border-radius: 5px;
+      margin-left: 10px;
+      margin-top: 10px;
+      background: linear-gradient(#535458, #1c1d1e);
+      background: -webkit-linear-gradient(#535458, #1c1d1e);
+      background: -moz-linear-gradient(#535458, #1c1d1e);
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      box-shadow: 0 1px 1px rgba(255, 255, 255, 0.3), inset 0 2px 1px rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+    }
+    .toggle:hover {
+      background: #38393b;
+    }
+    .toggle:active {
+      background: #1c1d1e;
+      box-shadow: 0 1px 1px rgba(255, 255, 255, 0.3), inset 0 2px 1px rgba(0, 0, 0, 0.9);
+    }
+    .toggle:focus {
+      outline: none;
+    }
+    .toggle > span {
+      display: block;
+      border-radius: 2px;
+      height: 5px;
+      width: 34px;
+      background: #6e7074;
+      margin: auto;
+      margin-bottom: 3px;
+    }
+    .navcollaps {
+      height: 0;
+      overflow: hidden;
+      background: #0f1010;
+      padding: 0 5px;
+      width: 150px;
+      transition: height 0.5s;
+      -webkit-box-sizing: border-box;
+      padding-left: 0px;
+      border-radius: 0 0 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .nav > li:first-child {
+      padding-top: 5px;
+    }
+    .nav > li {
+      list-style: none;
+      display: block;
+    }
+    .nav > li > a {
+      padding: 10px 10px;
+      margin-left: 5px;
+      line-height: 30px;
+      background: #404343;
+      color: #ccc;
+      display: block;
+      border-top: 1px solid #353737;
+      border-bottom: 1px solid #5e6262;
+      transition: padding-left 0.3s;
+    }
+    .nav > li > a:hover {
+      padding-left: 15px;
+      color: #fff;
+    }
+    .nav > li:last-child > a {
+      border-radius: 0 0 10px 0;
+    }
+    .nav > li > a:hover {
+      background: #2d2f2f;
+    }
+
+    @media (min-width: 770px) {
+      .navbar {
+        height: 60px;
+        background: linear-gradient(#5a8eee, #4066e8);
+        background: -webkit-linear-gradient(#5a8eee, #4066e8);
+        background: -moz-linear-gradient(#5a8eee, #4066e8);
+        font-family: arial;
+      }
+      .contaier {
+        width: 750px;
+      }
+      .navbar-header {
+        float: left;
+      }
+      .navbar-header {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .toggle {
+        display: none;
+      }
+      .navcollaps {
+        display: block;
+        height: 0 !important;
+        padding-top: 10px !important;
+        background: transparent !important;
+        width: auto;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+      }
+      .nav {
+        margin: 0;
+        padding: 0;
+      }
+      .nav > li {
+        float: left;
+        list-style: none;
+        padding: 5px;
+      }
+      .nav > li > a {
+        border-radius: 5px !important;
+        background: transparent;
+        padding: 0 15px;
+        border: none;
+      }
+      .nav > li > a:hover {
+        background: -webkit-linear-gradient(#d9e2f9, #becdf6);
+        background: -moz-linear-gradient(#d9e2f9, #becdf6);
+        background: linear-gradient(#d9e2f9, #becdf6);
+        color: #4066e8;
+      }
+    }
+    @media (min-width: 990px) {
+      .contaier {
+        width: 950px;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .contaier {
+        width: 1170px;
+      }
+    }
+
+    .show {
+      height: 270px;
+    }
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="contaier">
+      <div class="navbar-header">
+        <button class="toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="" class="navbar-brand">TUFOUND</a>
+      </div>
+      <!-- navbar-header -->
+
+      <ul class="nav navcollaps">
+        <li><a href="http://localhost:8080/acquired-board">습득 게시글</a></li>
+        <li><a href="#">분실 게시글</a></li>
+        <li><a href="#">쪽지</a></li>
+        <li><a href="#">쪽지보관</a></li>
+        <li><a href="#">로그아웃</a></li>
+        <li><a href="http://localhost:8080/admin">어드민</a></li>
+      </ul>
+    </div>
+    <!-- contaier -->
+  </div>
+  <!-- navbar -->
+</header>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">Email</th>
+    <th scope="col">Title</th>
+    <th scope="col">Content</th>
+    <th scope="col">잃어버린 위치</th>
+    <th scope="col">Time</th>
+  </tr>
+  </thead>
+  <div style="display: flex">
+    <div>
+      <img th:src="|/acquired-board/image/${detail.storeName}|" width="300" class="rounded" style="width: 350px;height: 350px;">
+    </div>
+    <div style="width: 80%">
+      <div id="map" style="width:100%;height:350px;"></div>
+      <input type="text" id="clickLat" name="lat" th:value="${detail.lat}" style="display: none" >
+      <input type="text" id="clickLng" name="lng" th:value="${detail.lng}" style="display: none">
+    </div>
+  </div>
+
+  <tr>
+    <th scope="row" th:text="${detail.username}"></th>
+    <td th:text="${detail.title}"></td>
+    <td th:text="${detail.content}"></td>
+    <td th:text="${detail.locationDetail}"></td>
+    <td th:text="${detail.acquiredDate}"></td>
+  </tr>
+
+  </tbody>
+</table>
+
+
+
+<a th:href="@{/acquired-board/form/{id} (id = ${detail.id})}" class="btn btn-primary">Edit</a>
+<a th:href="@{/acquired-board/delete/{id} (id = ${detail.id})}" class="btn btn-danger">Delete</a>
+<a th:href="@{/acquired-board}" class="btn btn-primary">Go to Article List</a>
+
+<footer class="bg-primary text-white text-center text-lg-start fixed-bottom">
+  <!-- Grid container -->
+  <div class="container p-4">
+    <!--Grid row-->
+    <div class="row">
+      <!--Grid column-->
+      <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+        <h5 class="text-uppercase">웹서비스 프로그래밍</h5>
+
+        <p>
+          TUFOUND-한국공학대학교 학생 분실물 찾기 서비스
+        </p>
+      </div>
+      <!--Grid column-->
+
+      <!--Grid column-->
+      <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+        <h5 style="display: none" class="text-uppercase">Links</h5>
+      </div>
+      <!--Grid column-->
+
+      <!--Grid column-->
+      <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+        <ul class="list-unstyled">
+          <li>
+            <a href="#!" class="text-white">은종혁</a>
+          </li>
+          <li>
+            <a href="#!" class="text-white">조욱희</a>
+          </li>
+          <li>
+            <a href="#!" class="text-white">박찬민</a>
+          </li>
+          <li>
+            <a href="#!" class="text-white">박보현</a>
+          </li>
+          <li>
+            <a href="#!" class="text-white">김상운</a>
+          </li>
+        </ul>
+      </div>
+      <!--Grid column-->
+    </div>
+    <!--Grid row-->
+  </div>
+  <!-- Grid container -->
+
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2020 Copyright:
+    <a class="text-white" href="https://mdbootstrap.com/">웹서비스프로그래밍8팀</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=928747b21d48299feb187ea830c36b89"></script>
+<script>
+  var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+          mapOption = {
+            center: new kakao.maps.LatLng(37.3398230443118, 126.73394743283482), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+          };
+  <!-- DB에 저장된 위도,경도가 html로 표시되고 이를 객체로 가져와 표시하는부분-->
+  var lng=document.getElementById("clickLng").value;
+  var lat=document.getElementById("clickLat").value;
+
+  var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+  var markerPosition = new kakao.maps.LatLng(lat,lng );
+
+  // 지도를 클릭한 위치에 표출할 마커입니다
+  var marker = new kakao.maps.Marker({
+    // 지도 중심좌표에 마커를 생성합니다
+    position: markerPosition
+  });
+  // 지도에 마커를 표시합니다
+  marker.setMap(map);
+  <!------->
+
+  // 지도에 클릭 이벤트를 등록합니다
+  // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+  kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+
+    // 클릭한 위도, 경도 정보를 가져옵니다
+    var latlng = mouseEvent.latLng;
+
+    // 마커 위치를 클릭한 위치로 옮깁니다
+    marker.setPosition(latlng);
+
+    var lat = latlng.getLat();
+    var lng =  latlng.getLng() ;
+
+    var resultDiv = document.getElementById('clickLat');
+    var resultLng = document.getElementById('clickLng');
+    resultDiv.value = lat;
+    resultLng.value=lng;
+
+  });
+</script>
+</body>
+</html>

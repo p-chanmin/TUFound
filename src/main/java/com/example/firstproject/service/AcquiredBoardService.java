@@ -4,13 +4,12 @@ import com.example.firstproject.dto.CreateAcquiredBoard;
 import com.example.firstproject.dto.AcquiredBoardResponse;
 import com.example.firstproject.dto.UpdateAcquiredBoard;
 import com.example.firstproject.entity.AcquiredBoard;
-import com.example.firstproject.entity.User;
+import com.example.firstproject.entity.Member;
 import com.example.firstproject.mapper.AcquiredBoardMapper;
 import com.example.firstproject.repository.AcquiredBoardRepository;
-import com.example.firstproject.repository.UserRepository;
+import com.example.firstproject.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -29,22 +28,20 @@ import java.util.UUID;
 @Service
 public class AcquiredBoardService {
 
-    @Value("${file.dir}")
-    private String fileDir;
+    private String fileDir = System.getProperty("user.dir") + "/img/";
     @Autowired
     AcquiredBoardMapper acquiredBoardMapper;
     @Autowired
     AcquiredBoardRepository acquiredBoardRepository;
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @Transactional
     public AcquiredBoardResponse save(CreateAcquiredBoard dto) throws IOException {
 
         String originalFilename = originalFilename(dto.getImgFile());
         String storeFilename = storeFile(dto.getImgFile());
-        // 추후에 서비스 이용으로 변경
-        User writer = userRepository.findById(dto.getWriterId()).orElseThrow(EntityNotFoundException::new);
+        Member writer = memberRepository.findById(dto.getWriterId()).orElseThrow(EntityNotFoundException::new);
 
         AcquiredBoard acquiredBoard = acquiredBoardMapper.mapToEntity(dto, writer, originalFilename,storeFilename);
         AcquiredBoard savedAcquiredBoard = acquiredBoardRepository.save(acquiredBoard);
@@ -84,9 +81,10 @@ public class AcquiredBoardService {
     public AcquiredBoardResponse update(UpdateAcquiredBoard dto) throws IOException {
 
         AcquiredBoard acquiredBoard = getEntity(dto.getId());
-        String originalFilename = originalFilename(dto.getImgFile());
+        String originalFilename = acquiredBoard.getImgName();
         String storeFilename = acquiredBoard.getStoreName();
-        if (dto.getImgFile() == null) {
+        if (!dto.getImgFile().isEmpty()) {
+            originalFilename = originalFilename(dto.getImgFile());
             storeFilename = storeFile(dto.getImgFile());
         }
 
@@ -132,4 +130,7 @@ public class AcquiredBoardService {
         return originalFilename.substring(pos + 1);
     }
 
+    public long getCount() {
+        return acquiredBoardRepository.countBy();
+    }
 }
