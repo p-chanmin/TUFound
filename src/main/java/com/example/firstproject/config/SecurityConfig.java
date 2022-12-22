@@ -37,6 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 페이지 권한 설정
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/myinfo").hasRole("MEMBER")
+                .antMatchers("/acquired-board/form/**").hasRole("MEMBER")
+                .antMatchers("/acquired-board/delete/**").hasRole("MEMBER")
                 .antMatchers("/**").permitAll()
             .and() // 로그인 설정
                 .formLogin()
