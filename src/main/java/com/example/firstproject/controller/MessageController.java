@@ -1,19 +1,27 @@
 package com.example.firstproject.controller;
 
-import com.example.firstproject.service.MessageService;
 import com.example.firstproject.dto.MessageDto;
 import com.example.firstproject.entity.Message;
 import com.example.firstproject.entity.User;
 import com.example.firstproject.repository.MessageRepository;
 import com.example.firstproject.repository.UserRepository;
 import com.example.firstproject.response.Response;
+import com.example.firstproject.service.MessageService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@RestController
+@Controller
 public class MessageController {
 
     private final MessageService messageService;
@@ -23,59 +31,103 @@ public class MessageController {
 
     Long loginUserId = 2L; // 임의의 유저 정보, 로그인 기능 구현 후 현재 로그인 된 유저의 정보를 넘겨줘야함
     @ApiOperation(value = "전체 편지함 읽기", notes = "전체 편지함 확인")
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/messages")
-    public Response<?> getMessageList() {
+    public String getMessageList(Model model) {
         User user = userRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
 
-        return new Response("성공", "모든 대화방을 불러왔습니다.", messageService.allMessage(user));
+        model.addAttribute("messages",
+                messageService.allMessage(user).stream().map(m -> {
+                    if(m.getSenderId() == user.getId()){
+                        m.setText("보낸쪽지");
+                        m.setOtherId(m.getReceiverId());
+                        m.setOtherName(m.getReceiverName());
+                    }
+                    else{
+                        m.setText("받은쪽지");
+                        m.setOtherId(m.getSenderId());
+                        m.setOtherName(m.getSenderName());
+                    }
+                    return m;
+                }).collect(Collectors.toList())
+        );
+        return "keepMessage";
     }
     @ApiOperation(value = "채팅방 읽기", notes = "해당 유저와 전체 쪽지 내용 확인")
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/messages/{id}")
-    public Response<?> getMessageRoom(@PathVariable("id") Long id) {
+    public String getMessageRoom(@PathVariable("id") Long id, Model model) {
         User user = userRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
+        User who = userRepository.findById(id).orElseThrow(() -> {
+            return new IllegalArgumentException("유저를 찾을 수 없습니다.");
+        });
+        model.addAttribute("who", who.getName());
+        model.addAttribute("messages",
+                messageService.getMessageRoom(user, id).stream().map(m -> {
+                        if(m.getSenderId() == user.getId()){
+                            m.setText("보낸쪽지");
+                            m.setOtherId(m.getReceiverId());
+                            m.setOtherName(m.getReceiverName());
+                        }
+                        else{
+                            m.setText("받은쪽지");
+                            m.setOtherId(m.getSenderId());
+                            m.setOtherName(m.getSenderName());
+                        }
+                        return m;
+                    }).collect(Collectors.toList())
+                );
 
-        return new Response("성공", id + "번 유저와의 대화방을 불러왔습니다.", messageService.getMessageRoom(user, id));
+        return "keepMessage-detail";
+    }
+
+    @GetMapping("/messages/post")
+    private String newMessageForm(@ModelAttribute MessageDto messageDto) {
+        return "postMessage";
     }
 
     // content, receiverName 입력 필요
     // loginUserId는 로그인 상태에서 받아옴
     @ApiOperation(value = "쪽지 보내기", notes = "쪽지 보내기")
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/messages/new")
-    public Response<?> sendMessage(@RequestBody MessageDto messageDto) {
+    public String sendMessage(@ModelAttribute MessageDto messageDto) {
         User user = userRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
+        User to = userRepository.findByName(messageDto.getReceiverName());
         messageDto.setSenderName(user.getName());
+        messageDto.setText("");
+        messageDto.setOtherId(0L);
+        messageDto.setOtherName("");
+        System.out.println("제발제발제발" + messageDto);
+        messageService.write(messageDto);
 
-        return new Response<>("성공", "쪽지를 보냈습니다.", messageService.write(messageDto));
+        return "redirect:/messages/"+to.getId();
     }
     @ApiOperation(value = "쪽지 삭제하기", notes = "쪽지를 삭제합니다.")
-    @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/messages/delete/{id}")
-    public Response<?> deleteMessage(@PathVariable("id") Long id) {
+    @GetMapping("/messages/delete/{id}")
+    public String deleteMessage(@PathVariable("id") Long id) {
         User user = userRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
         Message message = messageRepository.findById(id).orElseThrow(() -> {
             return new IllegalArgumentException("메세지를 찾을 수 없습니다.");
         });
+        Long who;
         if(message.getSender().getId() == loginUserId){
-            return deleteSentMessage(id);
+            deleteSentMessage(id);
+            who = message.getReceiver().getId();
         }
         else{
-            return deleteReceivedMessage(id);
+            deleteReceivedMessage(id);
+            who = message.getSender().getId();
         }
+        return "redirect:/messages/"+who;
     }
 
     @ApiOperation(value = "받은 편지함 읽기", notes = "받은 편지함 확인")
-    @ResponseStatus(HttpStatus.OK)
     public Response<?> getReceivedMessage() {
         // 임의로 유저 정보를 넣었지만, JWT 도입하고 현재 로그인 된 유저의 정보를 넘겨줘야함
         User user = userRepository.findById(loginUserId).orElseThrow(() -> {
@@ -86,7 +138,6 @@ public class MessageController {
     }
 
     @ApiOperation(value = "보낸 편지함 읽기", notes = "보낸 편지함 확인")
-    @ResponseStatus(HttpStatus.OK)
     public Response<?> getSentMessage() {
         // 임의로 유저 정보를 넣었지만, JWT 도입하고 현재 로그인 된 유저의 정보를 넘겨줘야함
         User user = userRepository.findById(loginUserId).orElseThrow(() -> {
@@ -97,7 +148,6 @@ public class MessageController {
     }
 
     @ApiOperation(value = "받은 쪽지 삭제하기", notes = "받은 쪽지를 삭제합니다.")
-    @ResponseStatus(HttpStatus.OK)
     public Response<?> deleteReceivedMessage(@PathVariable("id") Long id) {
         User user = userRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
@@ -107,7 +157,6 @@ public class MessageController {
     }
 
     @ApiOperation(value = "보낸 쪽지 삭제하기", notes = "보낸 쪽지를 삭제합니다.")
-    @ResponseStatus(HttpStatus.OK)
     public Response<?> deleteSentMessage(@PathVariable("id") Long id) {
         User user = userRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");

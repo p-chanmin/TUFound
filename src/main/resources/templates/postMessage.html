@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/header.css" />
+    <script src="script/header.js"></script>
+    <title>TUFOUND</title>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div class="contaier">
+          <div class="navbar-header">
+            <button class="toggle">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <a href="" class="navbar-brand">TUFOUND</a>
+          </div>
+          <!-- navbar-header -->
+
+          <ul class="nav navcollaps">
+            <li><a href="#">게시글</a></li>
+            <li><a href="#">글쓰기</a></li>
+            <li><a href="#">쪽지</a></li>
+            <li><a href="#">쪽지보관</a></li>
+            <li><a href="#">로그아웃</a></li>
+          </ul>
+        </div>
+        <!-- contaier -->
+      </div>
+      <!-- navbar -->
+    </header>
+
+    <form role="form" th:action="@{/messages/new}" th:object="${messageDto}" id="messageForm" method="POST" >
+      <p>
+        <textarea id="content" rows="30" cols="170" placeholder="전송할 내용을 입력하세요." th:field="*{content}" required="required"></textarea>
+        <textarea id="receiverName" placeholder="전송할 사람" th:field="*{receiverName}" required="required"></textarea>
+      </p>
+        <button type="submit" name="submit" value="value" class="link-button">쪽지 전송하기</button>
+    </form>
+  </body>
+</html>
