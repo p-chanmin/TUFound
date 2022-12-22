@@ -106,9 +106,9 @@
       </a>
 
       <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-        <a class="me-3 py-2 text-dark text-decoration-none" href="#">습득</a>
+        <a class="me-3 py-2 text-dark text-decoration-none" th:href="@{/acquired-board}">습득</a>
         <a class="me-3 py-2 text-dark text-decoration-none" href="#">분실</a>
-        <a class="py-2 text-dark text-decoration-none" href="#">사용자</a>
+        <a class="py-2 text-dark text-decoration-none" th:href="@{/admin/user}">사용자</a>
       </nav>
     </div>
 
@@ -124,8 +124,8 @@
           <div class="col">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Email : <span th:text="${mem.email}"></span></h5>
-                <form th:action="@{http://localhost:8080/admin/user/{email}(email = ${mem.email})}" method="post">
+                <h5 class="card-title">Name : <span th:text="${mem.username}"></span></h5>
+                <form th:action="@{http://localhost:8080/admin/user/{username}(username = ${mem.username})}" method="post">
                   <div class="button"><button type="submit" class="btn btn-danger">Ban</button></div>
                 </form>
               </div>

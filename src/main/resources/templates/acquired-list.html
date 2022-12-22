@@ -231,7 +231,7 @@
       <label>내용: </label>
       <p class="card-text col-2 text-truncate " th:text="${ac.content}" ></p>
       <label>아이디: </label>
-      <span class="card-text col-2 text-truncate" th:text="${ac.email}" ></span>
+      <span class="card-text col-2 text-truncate" th:text="${ac.username}" ></span>
       <br>
       <a style="size: 20px" th:href="@{/acquired-board/{id}(id=${ac.id})}" class="btn btn-primary">자세히</a>
     </div>

@@ -27,7 +27,7 @@ public class AcquiredBoard {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private MemberEntity writer;
+    private Member writer;
 
     @Setter
     @Column(nullable = false)

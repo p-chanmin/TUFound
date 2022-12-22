@@ -4,13 +4,12 @@ import com.example.firstproject.dto.CreateAcquiredBoard;
 import com.example.firstproject.dto.AcquiredBoardResponse;
 import com.example.firstproject.dto.UpdateAcquiredBoard;
 import com.example.firstproject.entity.AcquiredBoard;
-import com.example.firstproject.entity.MemberEntity;
+import com.example.firstproject.entity.Member;
 import com.example.firstproject.mapper.AcquiredBoardMapper;
 import com.example.firstproject.repository.AcquiredBoardRepository;
 import com.example.firstproject.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,7 @@ public class AcquiredBoardService {
 
         String originalFilename = originalFilename(dto.getImgFile());
         String storeFilename = storeFile(dto.getImgFile());
-        MemberEntity writer = memberRepository.findById(dto.getWriterId()).orElseThrow(EntityNotFoundException::new);
+        Member writer = memberRepository.findById(dto.getWriterId()).orElseThrow(EntityNotFoundException::new);
 
         AcquiredBoard acquiredBoard = acquiredBoardMapper.mapToEntity(dto, writer, originalFilename,storeFilename);
         AcquiredBoard savedAcquiredBoard = acquiredBoardRepository.save(acquiredBoard);

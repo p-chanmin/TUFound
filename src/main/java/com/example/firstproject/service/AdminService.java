@@ -1,6 +1,6 @@
 package com.example.firstproject.service;
 
-import com.example.firstproject.entity.MemberEntity;
+import com.example.firstproject.entity.Member;
 import com.example.firstproject.repository.LostRepository;
 import com.example.firstproject.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class AdminService {
         return lostRepository.countBy();
     }
 
-    public List<MemberEntity> getMemberAll() {
+    public List<Member> getMemberAll() {
         return memberRepository.findAll();
     }
 

@@ -13,7 +13,7 @@ public class AcquiredBoardResponse {
 
     private Long id;
     private Long writerId;
-    private String email;
+    private String username;
     private String title;
     private String content;
     private String lat;
