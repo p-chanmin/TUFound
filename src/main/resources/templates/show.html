@@ -222,7 +222,7 @@
 <table class="table">
   <thead>
   <tr>
-    <th scope="col">ID</th>
+    <th scope="col">Email</th>
     <th scope="col">Title</th>
     <th scope="col">Content</th>
     <th scope="col">잃어버린 위치</th>
@@ -245,8 +245,8 @@
     <th scope="row" th:text="${lost.id}"></th>
     <td th:text="${lost.title}"></td>
     <td th:text="${lost.content}"></td>
+    <td th:text="${lost.locationDetail}"></td>
     <td th:text="${lost.lostedDate}"></td>
-    <td th:text="${lost.modifiedAt}"></td>
   </tr>
 
   </tbody>
