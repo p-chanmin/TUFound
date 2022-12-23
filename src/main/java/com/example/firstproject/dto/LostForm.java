@@ -1,18 +1,20 @@
 package com.example.firstproject.dto;
 
 import com.example.firstproject.entity.Lost;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.example.firstproject.entity.Member;
+import lombok.*;
 
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Setter
 @Getter
 @ToString
 public class LostForm {
 
     private Long id;
+
+    private Long writerId;
     private String title;
     private String content;
 
@@ -32,6 +34,6 @@ public class LostForm {
 
     public Lost toEntity() {
 
-        return new Lost(id,title,content,lat,lng,filename,filepath,locationDetail,lostedDate);
+        return new Lost(id, Member.builder().id(id).build(),title,content,lat,lng,filename,filepath,locationDetail,lostedDate);
     }
 }

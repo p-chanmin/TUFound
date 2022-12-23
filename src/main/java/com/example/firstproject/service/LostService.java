@@ -2,7 +2,9 @@ package com.example.firstproject.service;
 
 import com.example.firstproject.dto.LostForm;
 import com.example.firstproject.entity.Lost;
+import com.example.firstproject.entity.Member;
 import com.example.firstproject.repository.LostRepository;
+import com.example.firstproject.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
@@ -21,12 +24,18 @@ public class LostService {
     @Autowired//스프링부트가 미리 생성해놓은 객체를 가져다가 자동연결
     private LostRepository lostRepository;
 
+    @Autowired
+    MemberRepository memberRepository;
+
     public Lost creates(LostForm lost, MultipartFile file) throws Exception {
 
         log.info(lost.toString());
 
         Lost article=lost.toEntity();
         log.info(article.toString());
+
+        //writer 추가
+        Member writer = memberRepository.findById(lost.getWriterId()).orElseThrow(EntityNotFoundException::new);
 
         String projectPath=System.getProperty("user.dir")+"\\src\\main\\webapp";
 
@@ -40,6 +49,9 @@ public class LostService {
 
         article.setFilename(fileName);
         article.setFilepath("/webapp/"+fileName);
+
+        //writer 추가
+        article.setWriter(writer);
 
 
         Lost saved=lostRepository.save(article);
@@ -70,6 +82,9 @@ public class LostService {
         //수정할 데이터 가져오기
         Lost articleEntity=lostRepository.findById(id).orElse(null);
 
+        //writer 추가
+        Member writer = memberRepository.findById(lost.getWriterId()).orElseThrow(EntityNotFoundException::new);
+        articleEntity.setWriter(writer);
 
         articleEntity.setId(lost.getId());
         articleEntity.setTitle(lost.getTitle());
