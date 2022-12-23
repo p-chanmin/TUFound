@@ -226,12 +226,12 @@
 </header>
 
 
-<form class="container" th:action="@{/lost-board/{id}/update(id=${lost.id})}" method="post" enctype="multipart/form-data" >
+<form class="container" th:action="@{/lost-board/{id}/update(id=${lost.id})}" method="post">
   <input type="hidden" name="id" th:value="${lost.id}"/>
   <div style="display: flex;">
     <div>
       <img src="https://i.pinimg.com/736x/65/96/97/6596973ef503faef21268a9ac84eadce.jpg" style="width:350px;height:350px;">
-      <input type="file" name="file" class="form-control">
+<!--      <input type="file" name="file" class="form-control">-->
     </div>
     <!--지도-->
     <div style="width: 80%;">

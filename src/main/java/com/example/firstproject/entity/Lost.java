@@ -38,11 +38,11 @@ public class Lost extends Timestamped{
     @Column
     private String lat;
 
-    @Column
-    private String filename;
-
-    @Column
-    private String filepath;
+//    @Column
+//    private String filename;
+//
+//    @Column
+//    private String filepath;
 
     @Column
     private String locationDetail;

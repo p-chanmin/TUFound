@@ -28,9 +28,9 @@ public class LostController {
 
 
     @PostMapping("/create") //새 페이지
-    public String creates(LostForm lost, @RequestParam("file") MultipartFile file)throws Exception{
+    public String creates(LostForm lost) {
 
-        LostForm saved= lostService.creates(lost,file);
+        LostForm saved= lostService.creates(lost);
 
         return "redirect:/lost-board/" +saved.getId();
     }
@@ -60,9 +60,9 @@ public class LostController {
 
 
     @PostMapping("/{id}/update") //수정페이지
-    public String update(@PathVariable Long id,LostForm lost,@RequestParam("file") MultipartFile file)throws Exception{
+    public String update(@PathVariable Long id,LostForm lost){
 
-        Lost update=lostService.update(id,lost,file);
+        Lost update=lostService.update(id,lost);
         //뷰 페이지 설정
         return "redirect:/lost-board/" +update.getId();
     }
