@@ -207,7 +207,7 @@
 
       <ul class="nav navcollaps">
         <li><a href="http://localhost:8080/acquired-board">습득 게시글</a></li>
-        <li><a href="http://localhost:8080/losted-board">분실 게시글</a></li>
+        <li><a href="http://localhost:8080/lost-board">분실 게시글</a></li>
         <li><a href="#">글쓰기</a></li>
         <li><a href="#">쪽지</a></li>
         <li><a href="#">쪽지보관</a></li>
@@ -255,9 +255,9 @@
 
 
 
-<a th:href="@{/losted-board/{id}/edit(id=${lost.id})}" class="btn btn-primary">Edit</a>
-<a th:href="@{/losted-board/{id}/delete(id=${lost.id})}" class="btn btn-danger">Delete</a>
-<a th:href="@{/losted-board}" class="btn btn-primary">Go to Article List</a>
+<a th:href="@{/lost-board/{id}/edit(id=${lost.id})}" class="btn btn-primary">Edit</a>
+<a th:href="@{/lost-board/{id}/delete(id=${lost.id})}" class="btn btn-danger">Delete</a>
+<a th:href="@{/lost-board}" class="btn btn-primary">Go to Article List</a>
 
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=928747b21d48299feb187ea830c36b89"></script>

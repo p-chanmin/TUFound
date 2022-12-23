@@ -209,7 +209,7 @@
 
           <ul class="nav navcollaps">
             <li><a href="http://localhost:8080/acquired-board">습득 게시글</a></li>
-            <li><a href="http://localhost:8080/losted-board">분실 게시글</a></li>
+            <li><a href="http://localhost:8080/lost-board">분실 게시글</a></li>
             <li><a href="#">글쓰기</a></li>
             <li><a href="#">쪽지</a></li>
             <li><a href="#">쪽지보관</a></li>
@@ -233,7 +233,7 @@
       <p class="card-text col-2 text-truncate " th:text="${lost.content}" ></p>
       <label>아이디: </label>
       <span class="card-text col-2 text-truncate" th:text="${lost.id}" ></span>
-      <a style="size: 20px" th:href="@{/losted-board/{id}(id=${lost.id})}" class="btn btn-primary">자세히</a>
+      <a style="size: 20px" th:href="@{/lost-board/{id}(id=${lost.id})}" class="btn btn-primary">자세히</a>
     </div>
   </div>
 </div>
