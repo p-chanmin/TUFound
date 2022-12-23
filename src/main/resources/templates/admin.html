@@ -103,7 +103,7 @@
 
       <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
         <a class="me-3 py-2 text-dark text-decoration-none" th:href="@{/acquired-board}">습득</a>
-        <a class="me-3 py-2 text-dark text-decoration-none" href="#">분실</a>
+        <a class="me-3 py-2 text-dark text-decoration-none" th:href="@{/lost-board}">분실</a>
         <a class="py-2 text-dark text-decoration-none" th:href="@{/admin/user}">사용자</a>
       </nav>
     </div>
@@ -140,7 +140,7 @@
             <ul class="list-unstyled mt-3 mb-4">
               <li>총 분실 게시판</li>
             </ul>
-            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Go List</button>
+            <a th:href="@{/lost-board}"><button type="button" class="w-100 btn btn-lg btn-outline-primary">Go List</button></a>
           </div>
         </div>
       </div>
@@ -154,7 +154,7 @@
             <ul class="list-unstyled mt-3 mb-4">
               <li>총 사용자</li>
             </ul>
-            <a th:href="@{http://localhost:8080/admin/user}">
+            <a th:href="@{/admin/user}">
               <button type="button" class="w-100 btn btn-lg btn-primary">
                 Show List
               </button>
