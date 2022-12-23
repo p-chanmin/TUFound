@@ -38,7 +38,7 @@ public class LostService {
         //writer 추가
         Member writer = memberRepository.findById(lost.getWriterId()).orElseThrow(EntityNotFoundException::new);
 
-        String projectPath=System.getProperty("user.dir")+"/img";
+        String projectPath=System.getProperty("user.dir")+"/img/";
 
         UUID uuid= UUID.randomUUID();
 
@@ -49,7 +49,7 @@ public class LostService {
         file.transferTo(saveFile);
 
         article.setFilename(fileName);
-        article.setFilepath("/mg/"+fileName);
+        article.setFilepath("/img/"+fileName);
 
         //writer 추가
         article.setWriter(writer);
