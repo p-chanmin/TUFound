@@ -1,21 +1,27 @@
 package com.example.firstproject.controller;
 
+import com.example.firstproject.dto.AcquiredBoardResponse;
+import com.example.firstproject.service.AcquiredBoardService;
 import com.example.firstproject.service.MemberService;
 import com.example.firstproject.dto.MemberDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @AllArgsConstructor
 public class MemberController {
     private MemberService memberService;
+    private AcquiredBoardService acquiredBoardService;
 
     // 메인 페이지
     @GetMapping("/")
-    public String index() {
-        return "/index";
+    public String index(Model model) {
+        model.addAttribute("acquired", acquiredBoardService.getAll());
+        return "acquired-list";
     }
 
     // 회원가입 페이지
@@ -27,9 +33,10 @@ public class MemberController {
     // 회원가입 처리
     @PostMapping("/user/signup")
     public String execSignup(MemberDto memberDto) {
+        memberDto.toString();
         memberService.joinUser(memberDto);
 
-        return "redirect:/user/login";
+        return "redirect:/acquired-board";
     }
 
     // 로그인 페이지
