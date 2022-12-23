@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/header.css"/>
+    <title>TUFOUND</title>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div class="contaier">
+          <div class="navbar-header">
+            <button class="toggle">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <a href="" class="navbar-brand">TUFOUND</a>
+          </div>
+          <!-- navbar-header -->
+
+          <ul class="nav navcollaps">
+            <li><a href="#">게시글</a></li>
+            <li><a href="#">글쓰기</a></li>
+            <li><a href="#">쪽지</a></li>
+            <li><a href="#">쪽지보관</a></li>
+            <li><a href="#">로그아웃</a></li>
+          </ul>
+        </div>
+        <!-- contaier -->
+      </div>
+      <!-- navbar -->
+    </header>
+
+    <article>
+      <div class="title" style="margin-left:15px">
+        <h4 class="mb-1">쪽지 대화방</h4>
+      </div>
+      <div class="list-group">
+        <div th:each="m: ${messages}">
+          <a th:href="@{|/messages/${m.otherId}|}" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">[(${m.text})]</h5>
+              <p>
+                <small>[(${m.otherName})]</small><br>
+                <small>[(${m.date})]</small>
+              </p>
+            </div>
+            <p class="mb-1">[(${m.content})]</p>
+            <small></small>
+          </a>
+        </div>
+        <!--
+        <a href="#" class="list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">보낸쪽지</h5>
+            <small class="text-muted">3 days ago</small>
+          </div>
+          <p class="mb-1">내용</p>
+          <small class="text-muted"></small>
+        </a>
+        -->
+      </div>
+    </article>
+  </body>
+</html>

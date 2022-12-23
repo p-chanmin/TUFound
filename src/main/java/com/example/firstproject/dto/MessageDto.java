@@ -19,6 +19,9 @@ public class MessageDto {
     private String receiverName;
     private Long senderId;
     private Long receiverId;
+    private String text;
+    private Long otherId;
+    private String otherName;
 
     public static MessageDto toDto(Message message) {
         return new MessageDto(
@@ -28,7 +31,10 @@ public class MessageDto {
                 message.getSender().getName(),
                 message.getReceiver().getName(),
                 message.getSender().getId(),
-                message.getReceiver().getId()
+                message.getReceiver().getId(),
+                "",
+                null,
+                null
         );
     }
 }
