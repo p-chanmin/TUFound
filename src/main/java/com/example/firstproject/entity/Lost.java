@@ -39,7 +39,7 @@ public class Lost extends Timestamped{
     private String locationDetail;
 
     @Setter
-    @Column(nullable = false)
+    @Column
     private String lostedDate;
 
 }
