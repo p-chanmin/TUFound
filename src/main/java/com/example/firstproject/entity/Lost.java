@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Lost extends Timestamped{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "lost_id")
     private Long id;
 
@@ -38,11 +38,6 @@ public class Lost extends Timestamped{
     @Column
     private String lat;
 
-//    @Column
-//    private String filename;
-//
-//    @Column
-//    private String filepath;
 
     @Column
     private String locationDetail;
