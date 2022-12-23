@@ -1,8 +1,10 @@
 package com.example.firstproject.controller;
 
 import com.example.firstproject.dto.MessageDto;
+import com.example.firstproject.entity.Member;
 import com.example.firstproject.entity.Message;
 import com.example.firstproject.entity.User;
+import com.example.firstproject.repository.MemberRepository;
 import com.example.firstproject.repository.MessageRepository;
 import com.example.firstproject.repository.UserRepository;
 import com.example.firstproject.response.Response;
@@ -25,7 +27,7 @@ import java.util.stream.Collectors;
 public class MessageController {
 
     private final MessageService messageService;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
     private final MessageRepository messageRepository;
 
 
@@ -33,7 +35,7 @@ public class MessageController {
     @ApiOperation(value = "전체 편지함 읽기", notes = "전체 편지함 확인")
     @GetMapping("/messages")
     public String getMessageList(Model model) {
-        User user = userRepository.findById(loginUserId).orElseThrow(() -> {
+        Member user = memberRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
 
@@ -57,13 +59,13 @@ public class MessageController {
     @ApiOperation(value = "채팅방 읽기", notes = "해당 유저와 전체 쪽지 내용 확인")
     @GetMapping("/messages/{id}")
     public String getMessageRoom(@PathVariable("id") Long id, Model model) {
-        User user = userRepository.findById(loginUserId).orElseThrow(() -> {
+        Member user = memberRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
-        User who = userRepository.findById(id).orElseThrow(() -> {
+        Member who = memberRepository.findById(id).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
-        model.addAttribute("who", who.getName());
+        model.addAttribute("who", who.getUsername());
         model.addAttribute("messages",
                 messageService.getMessageRoom(user, id).stream().map(m -> {
                         if(m.getSenderId() == user.getId()){
@@ -93,15 +95,14 @@ public class MessageController {
     @ApiOperation(value = "쪽지 보내기", notes = "쪽지 보내기")
     @PostMapping("/messages/new")
     public String sendMessage(@ModelAttribute MessageDto messageDto) {
-        User user = userRepository.findById(loginUserId).orElseThrow(() -> {
+        Member user = memberRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
-        User to = userRepository.findByName(messageDto.getReceiverName());
-        messageDto.setSenderName(user.getName());
+        Member to = memberRepository.findByUsername(messageDto.getReceiverName()).get();
+        messageDto.setSenderName(user.getUsername());
         messageDto.setText("");
         messageDto.setOtherId(0L);
         messageDto.setOtherName("");
-        System.out.println("제발제발제발" + messageDto);
         messageService.write(messageDto);
 
         return "redirect:/messages/"+to.getId();
@@ -109,7 +110,7 @@ public class MessageController {
     @ApiOperation(value = "쪽지 삭제하기", notes = "쪽지를 삭제합니다.")
     @GetMapping("/messages/delete/{id}")
     public String deleteMessage(@PathVariable("id") Long id) {
-        User user = userRepository.findById(loginUserId).orElseThrow(() -> {
+        Member user = memberRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
         Message message = messageRepository.findById(id).orElseThrow(() -> {
@@ -130,7 +131,7 @@ public class MessageController {
     @ApiOperation(value = "받은 편지함 읽기", notes = "받은 편지함 확인")
     public Response<?> getReceivedMessage() {
         // 임의로 유저 정보를 넣었지만, JWT 도입하고 현재 로그인 된 유저의 정보를 넘겨줘야함
-        User user = userRepository.findById(loginUserId).orElseThrow(() -> {
+        Member user = memberRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
 
@@ -140,7 +141,7 @@ public class MessageController {
     @ApiOperation(value = "보낸 편지함 읽기", notes = "보낸 편지함 확인")
     public Response<?> getSentMessage() {
         // 임의로 유저 정보를 넣었지만, JWT 도입하고 현재 로그인 된 유저의 정보를 넘겨줘야함
-        User user = userRepository.findById(loginUserId).orElseThrow(() -> {
+        Member user = memberRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
 
@@ -149,7 +150,7 @@ public class MessageController {
 
     @ApiOperation(value = "받은 쪽지 삭제하기", notes = "받은 쪽지를 삭제합니다.")
     public Response<?> deleteReceivedMessage(@PathVariable("id") Long id) {
-        User user = userRepository.findById(loginUserId).orElseThrow(() -> {
+        Member user = memberRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
 
@@ -158,7 +159,7 @@ public class MessageController {
 
     @ApiOperation(value = "보낸 쪽지 삭제하기", notes = "보낸 쪽지를 삭제합니다.")
     public Response<?> deleteSentMessage(@PathVariable("id") Long id) {
-        User user = userRepository.findById(loginUserId).orElseThrow(() -> {
+        Member user = memberRepository.findById(loginUserId).orElseThrow(() -> {
             return new IllegalArgumentException("유저를 찾을 수 없습니다.");
         });
 

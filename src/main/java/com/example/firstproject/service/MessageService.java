@@ -1,10 +1,10 @@
 package com.example.firstproject.service;
 
 import com.example.firstproject.dto.MessageDto;
+import com.example.firstproject.entity.Member;
 import com.example.firstproject.entity.Message;
-import com.example.firstproject.entity.User;
+import com.example.firstproject.repository.MemberRepository;
 import com.example.firstproject.repository.MessageRepository;
-import com.example.firstproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,18 +13,19 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class MessageService {
     private final MessageRepository messageRepository;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public MessageDto write(MessageDto messageDto) {
-        User receiver = userRepository.findByName(messageDto.getReceiverName());
-        User sender = userRepository.findByName(messageDto.getSenderName());
+        Member receiver = memberRepository.findByUsername(messageDto.getReceiverName()).get();
+        Member sender = memberRepository.findByUsername(messageDto.getSenderName()).get();
 
         Message message = new Message();
         message.setReceiver(receiver);
@@ -40,7 +41,7 @@ public class MessageService {
     }
 
     @Transactional(readOnly = true)
-    public List<MessageDto> allMessage(User user) {
+    public List<MessageDto> allMessage(Member user) {
         // 전체 편지함 불러오기
         // 한 명의 유저가 주고 받은 메세지의 최신 1개만 추출
         List<MessageDto> messageDtos = new ArrayList<>();
@@ -75,7 +76,7 @@ public class MessageService {
         return messageRooms;
     }
     @Transactional(readOnly = true)
-    public List<MessageDto> getMessageRoom(User user, Long otherId) {
+    public List<MessageDto> getMessageRoom(Member user, Long otherId) {
         // otherId 유저와 주고받은 편지함 불러오기
         List<MessageDto> messageDtos = new ArrayList<>();
 
@@ -94,7 +95,7 @@ public class MessageService {
     }
 
     @Transactional(readOnly = true)
-    public List<MessageDto> receivedMessage(User user) {
+    public List<MessageDto> receivedMessage(Member user) {
         // 받은 편지함 불러오기
         // 한 명의 유저가 받은 모든 메시지
         List<Message> messages = messageRepository.findAllByReceiver(user);
@@ -111,7 +112,7 @@ public class MessageService {
 
     // 받은 편지 삭제
     @Transactional
-    public Object deleteMessageByReceiver(Long id, User user) {
+    public Object deleteMessageByReceiver(Long id, Member user) {
         Message message = messageRepository.findById(id).orElseThrow(() -> {
             return new IllegalArgumentException("메시지를 찾을 수 없습니다.");
         });
@@ -132,7 +133,7 @@ public class MessageService {
 
 
     @Transactional(readOnly = true)
-    public List<MessageDto> sentMessage(User user) {
+    public List<MessageDto> sentMessage(Member user) {
         // 보낸 편지함 불러오기
         // 한 명의 유저가 받은 모든 메시지
         List<Message> messages = messageRepository.findAllBySender(user);
@@ -150,7 +151,7 @@ public class MessageService {
 
     // 보낸 편지 삭제
     @Transactional
-    public Object deleteMessageBySender(Long id, User user) {
+    public Object deleteMessageBySender(Long id, Member user) {
         Message message = messageRepository.findById(id).orElseThrow(() -> {
             return new IllegalArgumentException("메시지를 찾을 수 없습니다.");
         });

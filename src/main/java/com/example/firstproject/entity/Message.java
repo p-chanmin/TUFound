@@ -34,12 +34,12 @@ public class Message {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id")
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private User sender;
+    private Member sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private User receiver;
+    private Member receiver;
 
     public LocalDateTime getDate() {
         return date;
