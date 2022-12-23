@@ -35,14 +35,12 @@ public class LostForm {
                 lost.getContent(),
                 lost.getLat(),
                 lost.getLng(),
-//                lost.getFilename(),
-//                lost.getFilepath(),
                 lost.getLocationDetail(),
                 lost.getLostedDate()
         );
     }
     public  Lost toEntity(){
-        return new Lost(id, Member.builder().id(writerId).username(username).build(),
+        return new Lost(null,Member.builder().id(writerId).username(username).build(),
                 title,
                 content,
                 lat,
