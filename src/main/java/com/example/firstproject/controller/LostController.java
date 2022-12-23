@@ -32,7 +32,7 @@ public class LostController {
 
         Lost saved= lostService.creates(lost,file);
 
-        return "redirect:/lost-board" +saved.getId();
+        return "redirect:/lost-board/" +saved.getId();
     }
 
     //    상세조회
@@ -64,7 +64,7 @@ public class LostController {
 
         Lost update=lostService.update(id,lost,file);
         //뷰 페이지 설정
-        return "redirect:/lost-board" +update.getId();
+        return "redirect:/lost-board/" +update.getId();
     }
 
 
