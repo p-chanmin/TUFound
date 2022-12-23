@@ -6,11 +6,8 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<!--  <link rel="stylesheet" th:href="@{/css/gaesipan.css}" />-->
-<!--  <link rel="stylesheet" type="text/css" href="../css/header.css" />-->
-<!--  <script src="../css/script/location.js"></script>-->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <title>TUFOUND</title>
 
   <style>
@@ -201,80 +198,85 @@
 </head>
 
 <body>
-  <header>
-    <div class="navbar">
-      <div class="contaier">
-        <div class="navbar-header">
-          <button class="toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-          <a href="" class="navbar-brand">TUFOUND</a>
-        </div>
-        <!-- navbar-header -->
-
-        <ul class="nav navcollaps">
-          <li><a href="http://localhost:8080/acquired-board">습득 게시글</a></li>
-          <li><a href="http://localhost:8080/lost-board">분실 게시글</a></li>
-          <li><a href="#">쪽지</a></li>
-          <li><a href="#">쪽지보관</a></li>
-          <li><a href="#">로그아웃</a></li>
-          <li><a href="http://localhost:8080/admin">어드민</a></li>
-        </ul>
+<header>
+  <div class="navbar">
+    <div class="contaier">
+      <div class="navbar-header">
+        <button class="toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="" class="navbar-brand">TUFOUND</a>
       </div>
-      <!-- contaier -->
+      <!-- navbar-header -->
+
+      <ul class="nav navcollaps">
+        <li><a href="http://localhost:8080/acquired-board">습득 게시글</a></li>
+        <li><a href="http://localhost:8080/lost-board">분실 게시글</a></li>
+        <li><a href="#">글쓰기</a></li>
+        <li><a href="#">쪽지</a></li>
+        <li><a href="#">쪽지보관</a></li>
+        <li><a href="#">로그아웃</a></li>
+        <li><a href="http://localhost:8080/admin">어드민</a></li>
+      </ul>
     </div>
-    <!-- navbar -->
-  </header>
+    <!-- contaier -->
+  </div>
+  <!-- navbar -->
+</header>
 
 
-  <form class="container" action="/acquired-board" method="post" enctype="multipart/form-data" >
-
-    <div style="display: flex;">
-      <div>
-        <img src="https://i.pinimg.com/736x/65/96/97/6596973ef503faef21268a9ac84eadce.jpg" style="width:350px;height:350px;">
-        <input type="file" name="imgFile" class="form-control">
-      </div>
-      <!--지도-->
-      <div style="width: 80%;">
-        <div id="map" style="width:100%;height:350px;"></div>
-        <input type="text" class="form-control" placeholder="습득한 위치" style="display: flex" name="locationDetail">
-      </div>
+<form class="container" th:action="@{/lost-board/{id}/update(id=${lost.id})}" method="post" enctype="multipart/form-data" >
+  <input type="hidden" name="id" th:value="${lost.id}"/>
+  <div style="display: flex;">
+    <div>
+      <img src="https://i.pinimg.com/736x/65/96/97/6596973ef503faef21268a9ac84eadce.jpg" style="width:350px;height:350px;">
+      <input type="file" name="file" class="form-control">
     </div>
-
-    <div class="mb-3">
-    <label  class="form-label">습득한 날짜</label>
-    <input type="text" class="form-control" name="acquiredDate" placeholder="날짜입력">
+    <!--지도-->
+    <div style="width: 80%;">
+      <div id="map" style="width:100%;height:350px;"></div>
+      <input type="text" class="form-control" placeholder="잃어버린 위치" th:value="${lost.locationDetail}" style="display: flex" name="locationDetail">
     </div>
+  </div>
+
+  <div class="mb-3">
+    <label  class="form-label">잃어버린 날짜</label>
+    <input type="text" class="form-control" name="lostedDate" th:value="${lost.lostedDate}" placeholder="날짜입력">
+  </div>
 
 
-    <input type="text" id="clickLat" name="lat" style="display: none"></input>
-    <input type="text" id="clickLng" name="lng" style="display: none"></input>
+  <input type="text" id="clickLat" name="lat" style="display: none" th:value="${lost.lat}"></input>
+  <input type="text" id="clickLng" name="lng" style="display: none" th:value="${lost.lng}"></input>
 
-    <div class="mb-3">
-      <label  class="form-label">제목</label>
-      <input type="text" class="form-control" name="title" >
-    </div>
-    <div class="mb-3">
-      <label  class="form-label">내용</label>
-      <textarea class="form-control" rows="3" name="content"></textarea>
-    </div>
-    <input type="hidden" class="form-control" name="writerId" value="1" >
-    <button type="submit" class="btn btn-primary">제출</button>
-    <a href="/acquired-board" class="btn btn-primary">back</a>
-  </form>
+  <div class="mb-3">
+    <label  class="form-label">제목</label>
+    <input type="text" class="form-control" name="title" th:value="${lost.title}">
+  </div>
+  <div class="mb-3">
+    <label  class="form-label">내용</label>
+    <textarea class="form-control" rows="3" name="content" th:value="${lost.content}" th:text="${lost.content}"></textarea>
+  </div>
+
+
+
+  <button type="submit" class="btn btn-primary">제출</button>
+  <a th:href="@{/lost-board/{id}(id=${lost.id})}" class="btn btn-primary">back</a>
+</form>
 
 </body>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=928747b21d48299feb187ea830c36b89"></script>
 <script>
   var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-    mapOption = {
-      center: new kakao.maps.LatLng(37.3398230443118, 126.73394743283482), // 지도의 중심좌표
-      level: 3 // 지도의 확대 레벨
-    };
+          mapOption = {
+            center: new kakao.maps.LatLng(37.3398230443118, 126.73394743283482), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+          };
 
 
   var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TUFOUND</title>
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Lily+Script+One);
+      * {
+        margin: 0;
+        padding: 0;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+      a {
+        text-decoration: none;
+      }
+      a:hover {
+        color: #fff;
+      }
+      .navbar {
+        height: 60px;
+        background: linear-gradient(#5b5c60, #0f1010);
+        background: -webkit-linear-gradient(#5b5c60, #0f1010);
+        background: -moz-linear-gradient(#5b5c60, #0f1010);
+        font-family: arial;
+      }
+      .contaier {
+        margin: auto;
+      }
+      .navbar-header {
+        padding: 0 0;
+      }
+      .navbar-brand {
+        font-family: "Lily Script One", arial;
+        color: #e5e7ee;
+        padding: 0 20px 0px 20px;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        margin-right: 5px;
+        display: block;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+      }
+      .toggle {
+        float: left;
+        width: 70px;
+        height: 40px;
+        padding-top: 2px;
+        position: relative;
+        border-radius: 5px;
+        margin-left: 10px;
+        margin-top: 10px;
+        background: linear-gradient(#535458, #1c1d1e);
+        background: -webkit-linear-gradient(#535458, #1c1d1e);
+        background: -moz-linear-gradient(#535458, #1c1d1e);
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        box-shadow: 0 1px 1px rgba(255, 255, 255, 0.3), inset 0 2px 1px rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+      }
+      .toggle:hover {
+        background: #38393b;
+      }
+      .toggle:active {
+        background: #1c1d1e;
+        box-shadow: 0 1px 1px rgba(255, 255, 255, 0.3), inset 0 2px 1px rgba(0, 0, 0, 0.9);
+      }
+      .toggle:focus {
+        outline: none;
+      }
+      .toggle > span {
+        display: block;
+        border-radius: 2px;
+        height: 5px;
+        width: 34px;
+        background: #6e7074;
+        margin: auto;
+        margin-bottom: 3px;
+      }
+      .navcollaps {
+        height: 0;
+        overflow: hidden;
+        background: #0f1010;
+        padding: 0 5px;
+        width: 150px;
+        transition: height 0.5s;
+        -webkit-box-sizing: border-box;
+        padding-left: 0px;
+        border-radius: 0 0 10px;
+        position: relative;
+        z-index: 1;
+      }
+      .nav > li:first-child {
+        padding-top: 5px;
+      }
+      .nav > li {
+        list-style: none;
+        display: block;
+      }
+      .nav > li > a {
+        padding: 10px 10px;
+        margin-left: 5px;
+        line-height: 30px;
+        background: #404343;
+        color: #ccc;
+        display: block;
+        border-top: 1px solid #353737;
+        border-bottom: 1px solid #5e6262;
+        transition: padding-left 0.3s;
+      }
+      .nav > li > a:hover {
+        padding-left: 15px;
+        color: #fff;
+      }
+      .nav > li:last-child > a {
+        border-radius: 0 0 10px 0;
+      }
+      .nav > li > a:hover {
+        background: #2d2f2f;
+      }
+
+      @media (min-width: 770px) {
+        .navbar {
+          height: 60px;
+          background: linear-gradient(#5a8eee, #4066e8);
+          background: -webkit-linear-gradient(#5a8eee, #4066e8);
+          background: -moz-linear-gradient(#5a8eee, #4066e8);
+          font-family: arial;
+        }
+        .contaier {
+          width: 750px;
+        }
+        .navbar-header {
+          float: left;
+        }
+        .navbar-header {
+          background: rgba(255, 255, 255, 0.1);
+        }
+        .toggle {
+          display: none;
+        }
+        .navcollaps {
+          display: block;
+          height: 0 !important;
+          padding-top: 10px !important;
+          background: transparent !important;
+          width: auto;
+          margin: 0;
+          padding: 0;
+          overflow: visible;
+        }
+        .nav {
+          margin: 0;
+          padding: 0;
+        }
+        .nav > li {
+          float: left;
+          list-style: none;
+          padding: 5px;
+        }
+        .nav > li > a {
+          border-radius: 5px !important;
+          background: transparent;
+          padding: 0 15px;
+          border: none;
+        }
+        .nav > li > a:hover {
+          background: -webkit-linear-gradient(#d9e2f9, #becdf6);
+          background: -moz-linear-gradient(#d9e2f9, #becdf6);
+          background: linear-gradient(#d9e2f9, #becdf6);
+          color: #4066e8;
+        }
+      }
+      @media (min-width: 990px) {
+        .contaier {
+          width: 950px;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .contaier {
+          width: 1170px;
+        }
+      }
+
+      .show {
+        height: 270px;
+      }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div class="contaier">
+          <div class="navbar-header">
+            <button class="toggle">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <a href="" class="navbar-brand">TUFOUND</a>
+          </div>
+          <!-- navbar-header -->
+
+          <ul class="nav navcollaps">
+            <li><a href="http://localhost:8080/acquired-board">습득 게시글</a></li>
+            <li><a href="http://localhost:8080/lost-board">분실 게시글</a></li>
+            <li><a href="#">글쓰기</a></li>
+            <li><a href="#">쪽지</a></li>
+            <li><a href="#">쪽지보관</a></li>
+            <li><a href="#">로그아웃</a></li>
+            <li><a href="http://localhost:8080/admin">어드민</a></li>
+          </ul>
+        </div>
+        <!-- contaier -->
+      </div>
+      <!-- navbar -->
+    </header>
+
+    <h1>분실탭</h1>
+  <div style="display: flex; margin: 0 10px 0 10px;">
+  <div class="card" style="width: 18rem; margin-left: 10px" th:each="lost:${lostList}">
+    <img th:src="@{${lost.filepath}}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <label>제목: </label>
+      <h5 class="card-title col-2 text-truncate" th:text="${lost.title}"></h5>
+      <label>내용: </label>
+      <p class="card-text col-2 text-truncate " th:text="${lost.content}" ></p>
+      <label>아이디: </label>
+      <span class="card-text col-2 text-truncate" th:text="${lost.id}" ></span>
+      <a style="size: 20px" th:href="@{/lost-board/{id}(id=${lost.id})}" class="btn btn-primary">자세히</a>
+    </div>
+  </div>
+</div>
+
+
+<!--    <table class="table">-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th scope="col">ID</th>-->
+<!--        <th scope="col">Title</th>-->
+<!--        <th scope="col">Content</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+
+<!--      <tr th:each="lost:${lostList}">-->
+<!--        <th scope="row" th:text="${lost.id}">{{id}}</th>-->
+<!--        <td ><a th:text="${lost.title}" th:href="@{/lost/{id}(id=${lost.id})}">{{title}}</a></td>-->
+<!--        <td th:text="${lost.content}">{{content}}</td>-->
+<!--      </tr>-->
+
+      </tbody>
+    </table>
+
+    <a style="margin: 20px" type="button" class="btn btn-info" th:href="@{/lost-board/create}">글쓰기</a>
+
+  </body>
+</html>

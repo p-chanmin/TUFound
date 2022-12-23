@@ -8,5 +8,6 @@ import java.util.ArrayList;
 public interface LostRepository extends CrudRepository<Lost,Long> {
     @Override
     ArrayList<Lost> findAll();
+
     long countBy();
 }
