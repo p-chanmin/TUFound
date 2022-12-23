@@ -125,7 +125,7 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">Name : <span th:text="${mem.username}"></span></h5>
-                <form th:action="@{http://localhost:8080/admin/user/{username}(username = ${mem.username})}" method="post">
+                <form th:action="@{/admin/user/{username}(username = ${mem.username})}" method="post">
                   <div class="button"><button type="submit" class="btn btn-danger">Ban</button></div>
                 </form>
               </div>
