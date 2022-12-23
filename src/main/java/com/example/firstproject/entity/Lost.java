@@ -11,18 +11,20 @@ import javax.persistence.*;
 @ToString
 @Getter
 @Setter
-@Data
 public class Lost extends Timestamped{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "lost_id")
     private Long id;
 
     @Setter
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "writer_id")
     private Member writer;
+
+
 
     @Column
     private String title;

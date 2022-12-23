@@ -231,7 +231,7 @@
       <label>내용: </label>
       <p class="card-text col-2 text-truncate " th:text="${lost.content}" ></p>
       <label>아이디: </label>
-      <span class="card-text col-2 text-truncate" th:text="${lost.id}" ></span>
+      <span class="card-text col-2 text-truncate" th:text="${lost.username}" ></span>
       <a style="size: 20px" th:href="@{/lost-board/{id}(id=${lost.id})}" class="btn btn-primary">자세히</a>
     </div>
   </div>
@@ -253,10 +253,6 @@
 <!--        <td ><a th:text="${lost.title}" th:href="@{/lost/{id}(id=${lost.id})}">{{title}}</a></td>-->
 <!--        <td th:text="${lost.content}">{{content}}</td>-->
 <!--      </tr>-->
-
-      </tbody>
-    </table>
-
     <a style="margin: 20px" type="button" class="btn btn-info" th:href="@{/lost-board/create}">글쓰기</a>
 
   </body>
