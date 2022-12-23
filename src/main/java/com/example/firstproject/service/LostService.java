@@ -6,6 +6,7 @@ import com.example.firstproject.repository.LostRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -23,15 +24,9 @@ public class LostService {
     public Lost creates(LostForm lost, MultipartFile file) throws Exception {
 
         log.info(lost.toString());
-        //System.out.println(form.toString());->로깅으로 대체
 
-        //1. DTO를 Entity로 변환
         Lost article=lost.toEntity();
         log.info(article.toString());
-
-        //2. Repository에 endtity를 db에저장
-
-        //System.out.println(saved.toString());
 
         String projectPath=System.getProperty("user.dir")+"\\src\\main\\webapp";
 
@@ -54,11 +49,20 @@ public class LostService {
     }
 
 
-    public List<Lost> show() {
-        //1. id로 데이터를 가져옴 db에서 id값을 조회
-        List<Lost> articleEntity= lostRepository.findAll();
+    public void show(Model model) {
 
-        return articleEntity;
+        List<Lost> articleEntityList= lostRepository.findAll();
+
+        //2. 가져온 Article 묶음을 뷰로 전달!
+        model.addAttribute("lostList",articleEntityList);
+    }
+
+    public void edit(Long id, Model model) {
+        //수정할 데이터 가져오기
+        Lost articleEntity=lostRepository.findById(id).orElse(null);
+
+        //model 등록
+        model.addAttribute("lost",articleEntity);
     }
 
 
@@ -76,7 +80,7 @@ public class LostService {
         articleEntity.setLostedDate(lost.getLostedDate());
 
         if(!file.isEmpty()){
-            String projectPath=System.getProperty("user.dir")+"\\src\\main\\webapp";
+            String projectPath=System.getProperty("user.dir")+"\\src\\main\\resources\\static\\image";
 
             UUID uuid= UUID.randomUUID();
 
@@ -87,9 +91,10 @@ public class LostService {
             file.transferTo(saveFile);
 
             articleEntity.setFilename(fileName);  //articleEntity--> target으로 바꾸니깐 Time에러 사라짐
-            articleEntity.setFilepath("/webapp/"+fileName);
+            articleEntity.setFilepath("/image/"+fileName);
         }
 
+        lostRepository.save(articleEntity);
 
 
         return articleEntity;
@@ -111,9 +116,13 @@ public class LostService {
     }
 
 
-    public Lost getById(Long id) {
+    public void getById(Long id, Model model) {
         Lost target=lostRepository.findById(id).orElse(null);
 
-        return target;
+        model.addAttribute("lost",target);
+    }
+
+    public long getCount(){
+        return lostRepository.countBy();
     }
 }
