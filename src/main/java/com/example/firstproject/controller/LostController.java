@@ -19,41 +19,42 @@ import java.util.List;
 
 @Controller
 @Slf4j //로깅
+@RequestMapping("/losted-board")
 public class LostController {
 
     @Autowired //서비스 객체 = 실제 로직이 동작
     private LostService lostService;
 
-    @GetMapping("/lost/new")
+    @GetMapping("/create")
     public String newArticleForm(){
 
         return "lostGaesipan";
     }
 
 
-    @PostMapping("/lost/create") //새 페이지
+    @PostMapping("/create") //새 페이지
     public String creates(LostForm lost, @RequestParam("file") MultipartFile file)throws Exception{
 
         Lost saved= lostService.creates(lost,file);
 
-        return "redirect:/lost/"+saved.getId();
+        return "redirect:/losted-board/"+saved.getId();
     }
 
     //    상세조회
-    @GetMapping("/lost/{id}")
+    @GetMapping("/{id}")
     public String getLostBoardById(@PathVariable Long id, Model model) {
         lostService.getById(id,model);
 
         return "show";
     }
 
-    @GetMapping("/lost")
+    @GetMapping()
     public String getLostBoardList(Model model) {
         lostService.show(model);
         return "mainPage";
     }
 
-    @GetMapping("/lost/{id}/edit")
+    @GetMapping("/{id}/edit")
     public String edit(@PathVariable Long id,Model model){
 
         lostService.edit(id,model);
@@ -63,19 +64,19 @@ public class LostController {
 
 
 
-    @PostMapping("/lost/{id}/update") //수정페이지
+    @PostMapping("/{id}/update") //수정페이지
     public String update(@PathVariable Long id,LostForm lost,@RequestParam("file") MultipartFile file)throws Exception{
 
         Lost update=lostService.update(id,lost,file);
         //뷰 페이지 설정
-        return "redirect:/lost/"+update.getId();
+        return "redirect:/losted-board/"+update.getId();
     }
 
 
-    @GetMapping("/lost/{id}/delete")
+    @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes rttr){
 
         lostService.delete(id,rttr);
-        return "redirect:/lost";
+        return "redirect:/losted-board";
     }
 }

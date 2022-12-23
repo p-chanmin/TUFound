@@ -1,18 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<!--  <link rel="stylesheet" th:href="@{/css/gaesipan.css}" />-->
-<!--  <link rel="stylesheet" type="text/css" href="../css/header.css" />-->
-<!--  <script src="../css/script/location.js"></script>-->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-  <title>TUFOUND</title>
-
+  <meta charset="UTF-8">
+  <title>Title</title>
   <style>
     @import url(https://fonts.googleapis.com/css?family=Lily+Script+One);
     * {
@@ -197,99 +188,104 @@
       height: 270px;
     }
   </style>
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
-
 <body>
-  <header>
-    <div class="navbar">
-      <div class="contaier">
-        <div class="navbar-header">
-          <button class="toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-          <a href="" class="navbar-brand">TUFOUND</a>
-        </div>
-        <!-- navbar-header -->
 
-        <ul class="nav navcollaps">
-          <li><a href="http://localhost:8080/acquired-board">습득 게시글</a></li>
-          <li><a href="http://localhost:8080/losted-board">분실 게시글</a></li>
-          <li><a href="#">쪽지</a></li>
-          <li><a href="#">쪽지보관</a></li>
-          <li><a href="#">로그아웃</a></li>
-          <li><a href="http://localhost:8080/admin">어드민</a></li>
-        </ul>
+<header>
+  <div class="navbar">
+    <div class="contaier">
+      <div class="navbar-header">
+        <button class="toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a href="" class="navbar-brand">TUFOUND</a>
       </div>
-      <!-- contaier -->
+      <!-- navbar-header -->
+
+      <ul class="nav navcollaps">
+        <li><a href="http://localhost:8080/acquired-board">습득 게시글</a></li>
+        <li><a href="http://localhost:8080/losted-board">분실 게시글</a></li>
+        <li><a href="#">글쓰기</a></li>
+        <li><a href="#">쪽지</a></li>
+        <li><a href="#">쪽지보관</a></li>
+        <li><a href="#">로그아웃</a></li>
+      </ul>
     </div>
-    <!-- navbar -->
-  </header>
+    <!-- contaier -->
+  </div>
+  <!-- navbar -->
+</header>
 
-
-  <form class="container" action="/acquired-board" method="post" enctype="multipart/form-data" >
-
-    <div style="display: flex;">
-      <div>
-        <img src="https://i.pinimg.com/736x/65/96/97/6596973ef503faef21268a9ac84eadce.jpg" style="width:350px;height:350px;">
-        <input type="file" name="imgFile" class="form-control">
-      </div>
-      <!--지도-->
-      <div style="width: 80%;">
-        <div id="map" style="width:100%;height:350px;"></div>
-        <input type="text" class="form-control" placeholder="습득한 위치" style="display: flex" name="locationDetail">
-      </div>
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Title</th>
+    <th scope="col">Content</th>
+    <th scope="col">잃어버린 위치</th>
+    <th scope="col">Time</th>
+  </tr>
+  </thead>
+  <div style="display: flex">
+    <div>
+      <img th:src="@{${lost.filepath}}" width="300" class="rounded" style="width: 350px;height: 350px;">
     </div>
-
-    <div class="mb-3">
-    <label  class="form-label">습득한 날짜</label>
-    <input type="text" class="form-control" name="acquiredDate" placeholder="날짜입력">
+    <div style="width: 80%">
+      <div id="map" style="width:100%;height:350px;"></div>
     </div>
+  </div>
+
+  <input type="text" id="clickLat" name="lat" th:value="${lost.lat}" style="display: none" >
+  <input type="text" id="clickLng" name="lng" th:value="${lost.lng}" style="display: none">
+
+  <tr>
+    <th scope="row" th:text="${lost.id}"></th>
+    <td th:text="${lost.title}"></td>
+    <td th:text="${lost.content}"></td>
+    <td th:text="${lost.lostedDate}"></td>
+    <td th:text="${lost.modifiedAt}"></td>
+  </tr>
+
+  </tbody>
+</table>
 
 
-    <input type="text" id="clickLat" name="lat" style="display: none"></input>
-    <input type="text" id="clickLng" name="lng" style="display: none"></input>
 
-    <div class="mb-3">
-      <label  class="form-label">제목</label>
-      <input type="text" class="form-control" name="title" >
-    </div>
-    <div class="mb-3">
-      <label  class="form-label">내용</label>
-      <textarea class="form-control" rows="3" name="content"></textarea>
-    </div>
-    <input type="hidden" class="form-control" name="writerId" value="1" >
-    <button type="submit" class="btn btn-primary">제출</button>
-    <a href="/acquired-board" class="btn btn-primary">back</a>
-  </form>
+<a th:href="@{/losted-board/{id}/edit(id=${lost.id})}" class="btn btn-primary">Edit</a>
+<a th:href="@{/losted-board/{id}/delete(id=${lost.id})}" class="btn btn-danger">Delete</a>
+<a th:href="@{/losted-board}" class="btn btn-primary">Go to Article List</a>
 
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=928747b21d48299feb187ea830c36b89"></script>
 <script>
   var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-    mapOption = {
-      center: new kakao.maps.LatLng(37.3398230443118, 126.73394743283482), // 지도의 중심좌표
-      level: 3 // 지도의 확대 레벨
-    };
-
+          mapOption = {
+            center: new kakao.maps.LatLng(37.3398230443118, 126.73394743283482), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+          };
+  <!-- DB에 저장된 위도,경도가 html로 표시되고 이를 객체로 가져와 표시하는부분-->
+  var lng=document.getElementById("clickLng").value;
+  var lat=document.getElementById("clickLat").value;
 
   var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+  var markerPosition = new kakao.maps.LatLng(lat,lng );
 
   // 지도를 클릭한 위치에 표출할 마커입니다
   var marker = new kakao.maps.Marker({
     // 지도 중심좌표에 마커를 생성합니다
-    position: map.getCenter()
+    position: markerPosition
   });
   // 지도에 마커를 표시합니다
   marker.setMap(map);
+  <!------->
 
   // 지도에 클릭 이벤트를 등록합니다
   // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-  kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+  kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
 
     // 클릭한 위도, 경도 정보를 가져옵니다
     var latlng = mouseEvent.latLng;
@@ -298,14 +294,14 @@
     marker.setPosition(latlng);
 
     var lat = latlng.getLat();
-    var lng = latlng.getLng();
+    var lng =  latlng.getLng() ;
 
     var resultDiv = document.getElementById('clickLat');
     var resultLng = document.getElementById('clickLng');
     resultDiv.value = lat;
-    resultLng.value = lng;
+    resultLng.value=lng;
 
   });
 </script>
-
+</body>
 </html>
