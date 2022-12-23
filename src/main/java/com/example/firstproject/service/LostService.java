@@ -38,7 +38,7 @@ public class LostService {
         //writer 추가
         Member writer = memberRepository.findById(lost.getWriterId()).orElseThrow(EntityNotFoundException::new);
 
-        String projectPath=System.getProperty("user.dir")+"\\src\\main\\webapp";
+        String projectPath=System.getProperty("user.dir")+"/img";
 
         UUID uuid= UUID.randomUUID();
 
@@ -49,7 +49,7 @@ public class LostService {
         file.transferTo(saveFile);
 
         article.setFilename(fileName);
-        article.setFilepath("/webapp/"+fileName);
+        article.setFilepath("/mg/"+fileName);
 
         //writer 추가
         article.setWriter(writer);
@@ -99,7 +99,7 @@ public class LostService {
         articleEntity.setLostedDate(lost.getLostedDate());
 
         if(!file.isEmpty()){
-            String projectPath=System.getProperty("user.dir")+"\\src\\main\\webapp";
+            String projectPath=System.getProperty("user.dir")+"/img";
 
             UUID uuid= UUID.randomUUID();
 
@@ -110,7 +110,7 @@ public class LostService {
             file.transferTo(saveFile);
 
             articleEntity.setFilename(fileName);  //articleEntity--> target으로 바꾸니깐 Time에러 사라짐
-            articleEntity.setFilepath("/webapp/"+fileName);
+            articleEntity.setFilepath("/img/"+fileName);
         }
 
         lostRepository.save(articleEntity);
