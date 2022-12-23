@@ -5,21 +5,16 @@ import com.example.firstproject.entity.Lost;
 import com.example.firstproject.service.LostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.List;
 
 
 @Controller
 @Slf4j //로깅
-@RequestMapping("/losted-board")
+@RequestMapping("/lost-board")
 public class LostController {
 
     @Autowired //서비스 객체 = 실제 로직이 동작
@@ -37,7 +32,7 @@ public class LostController {
 
         Lost saved= lostService.creates(lost,file);
 
-        return "redirect:/losted-board/"+saved.getId();
+        return "redirect:/lost-board" +saved.getId();
     }
 
     //    상세조회
@@ -69,7 +64,7 @@ public class LostController {
 
         Lost update=lostService.update(id,lost,file);
         //뷰 페이지 설정
-        return "redirect:/losted-board/"+update.getId();
+        return "redirect:/lost-board" +update.getId();
     }
 
 
@@ -77,6 +72,6 @@ public class LostController {
     public String delete(@PathVariable Long id, RedirectAttributes rttr){
 
         lostService.delete(id,rttr);
-        return "redirect:/losted-board";
+        return "redirect:/lost-board";
     }
 }

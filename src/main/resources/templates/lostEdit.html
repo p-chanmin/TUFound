@@ -212,7 +212,8 @@
       <!-- navbar-header -->
 
       <ul class="nav navcollaps">
-        <li><a href="#">게시글</a></li>
+        <li><a href="http://localhost:8080/acquired-board">습득 게시글</a></li>
+        <li><a href="http://localhost:8080/lost-board">분실 게시글</a></li>
         <li><a href="#">글쓰기</a></li>
         <li><a href="#">쪽지</a></li>
         <li><a href="#">쪽지보관</a></li>
@@ -226,7 +227,7 @@
 </header>
 
 
-<form class="container" th:action="@{/losted-board/{id}/update(id=${lost.id})}" method="post" enctype="multipart/form-data" >
+<form class="container" th:action="@{/lost-board/{id}/update(id=${lost.id})}" method="post" enctype="multipart/form-data" >
   <input type="hidden" name="id" th:value="${lost.id}"/>
   <div style="display: flex;">
     <div>
@@ -261,7 +262,7 @@
 
 
   <button type="submit" class="btn btn-primary">제출</button>
-  <a th:href="@{/losted-board/{id}(id=${lost.id})}" class="btn btn-primary">back</a>
+  <a th:href="@{/lost-board/{id}(id=${lost.id})}" class="btn btn-primary">back</a>
 </form>
 
 </body>
