@@ -214,7 +214,6 @@
         <ul class="nav navcollaps">
           <li><a href="http://localhost:8080/acquired-board">습득 게시글</a></li>
           <li><a href="http://localhost:8080/lost-board">분실 게시글</a></li>
-          <li><a href="#">글쓰기</a></li>
           <li><a href="#">쪽지</a></li>
           <li><a href="#">쪽지보관</a></li>
           <li><a href="#">로그아웃</a></li>
@@ -260,7 +259,7 @@
     </div>
 
 
-
+    <input type="hidden" class="form-control" name="writerId" value="1" >
     <button type="submit" class="btn btn-primary">제출</button>
     <a th:href="@{/mainPage}" class="btn btn-primary">back</a>
   </form>
