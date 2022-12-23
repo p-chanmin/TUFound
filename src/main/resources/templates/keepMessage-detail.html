@@ -247,6 +247,7 @@
       <div class="list-group">
         <div th:each="m: ${messages}">
 
+          <small></small>
           <div class="d-flex bd-highlight">
             <div class="p-2 flex-grow-1 bd-highlight">
               <h5 class="mb-1">[(${m.text})]</h5><br>
@@ -257,7 +258,7 @@
               [(${m.date})]<br>
             </div>
             <div class="p-2 bd-highlight">
-              <a href="@{|/messages/delete/${m.id}|}" class="deleteMessage">x</a>
+              <a th:href="@{|/messages/delete/${m.id}|}" class="deleteMessage">x</a>
             </div>
 
         </div>
