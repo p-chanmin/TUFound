@@ -188,6 +188,25 @@
       .show {
         height: 270px;
       }
+      .deleteMessage {
+        background-color:#ff5c5c;
+        border-radius:22px;
+        border:1px solid #ab1919;
+        display:inline-block;
+        cursor:pointer;
+        color:#ffffff;
+        font-family:Arial;
+        font-size:14px;
+        padding:0px 11px;
+        text-decoration:none;
+    }
+    .deleteMessage:hover {
+        background-color:#bd2a2a;
+    }
+    .deleteMessage:active {
+        position:relative;
+        top:1px;
+    }
 
     </style>
 
@@ -227,19 +246,20 @@
       </div>
       <div class="list-group">
         <div th:each="m: ${messages}">
-          <a th:href="@{|/messages/${m.otherId}|}" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">[(${m.text})]</h5>
-              <p>
-                <small>[(${m.otherName})]</small><br>
-                <small>[(${m.date})]</small>
-                <a th:href="@{|/messages/delete/${m.id}|}" class="deleteMessage">쪽지 삭제</a>
-              </p>
-            </div>
-            <p class="mb-1">[(${m.content})]</p>
-            <small></small>
 
-          </a>
+          <div class="d-flex bd-highlight">
+            <div class="p-2 flex-grow-1 bd-highlight">
+              <h5 class="mb-1">[(${m.text})]</h5><br>
+              [(${m.content})]
+            </div>
+            <div class="p-2 bd-highlight">
+              [(${m.otherName})]<br>
+              [(${m.date})]<br>
+            </div>
+            <div class="p-2 bd-highlight">
+              <a href="@{|/messages/delete/${m.id}|}" class="deleteMessage">x</a>
+            </div>
+
         </div>
       </div>
     </article>
