@@ -28,7 +28,7 @@ public class LostService {
     @Autowired
     MemberRepository memberRepository;
 
-    public LostForm creates(LostForm lost, MultipartFile file) throws Exception {
+    public LostForm creates(LostForm lost) {
 
         log.info(lost.toString());
 
@@ -38,18 +38,18 @@ public class LostService {
         //writer 추가
         Member writer = memberRepository.findById(lost.getWriterId()).orElseThrow(EntityNotFoundException::new);
 
-        String projectPath=System.getProperty("user.dir")+"/img/";
-
-        UUID uuid= UUID.randomUUID();
-
-        String fileName=uuid+"_"+file.getOriginalFilename();
-
-        File saveFile=new File(projectPath,fileName);
-
-        file.transferTo(saveFile);
-
-        article.setFilename(fileName);
-        article.setFilepath("/img/"+fileName);
+//        String projectPath=System.getProperty("user.dir")+"\\src\\main\\resources\\img";
+//
+//        UUID uuid= UUID.randomUUID();
+//
+//        String fileName=uuid+"_"+file.getOriginalFilename();
+//
+//        File saveFile=new File(projectPath,fileName);
+//
+//        file.transferTo(saveFile);
+//
+//        article.setFilename(fileName);
+//        article.setFilepath("/img/"+fileName);
 
         //writer 추가
         article.setWriter(writer);
@@ -82,13 +82,13 @@ public class LostService {
     }
 
 
-    public Lost update(Long id,LostForm lost,MultipartFile file) throws Exception {
+    public Lost update(Long id,LostForm lost)  {
         //수정할 데이터 가져오기
         Lost articleEntity=lostRepository.findById(id).orElse(null);
 
         //writer 추가
-        Member writer = memberRepository.findById(lost.getWriterId()).orElseThrow(EntityNotFoundException::new);
-        articleEntity.setWriter(writer);
+//        Member writer = memberRepository.findById(lost.getWriterId()).orElseThrow(EntityNotFoundException::new);
+//        articleEntity.setWriter(writer);
 
         articleEntity.setId(lost.getId());
         articleEntity.setTitle(lost.getTitle());
@@ -98,20 +98,20 @@ public class LostService {
         articleEntity.setLng(lost.getLng());
         articleEntity.setLostedDate(lost.getLostedDate());
 
-        if(!file.isEmpty()){
-            String projectPath=System.getProperty("user.dir")+"/img";
-
-            UUID uuid= UUID.randomUUID();
-
-            String fileName=uuid+"_"+file.getOriginalFilename();
-
-            File saveFile=new File(projectPath,fileName);
-
-            file.transferTo(saveFile);
-
-            articleEntity.setFilename(fileName);  //articleEntity--> target으로 바꾸니깐 Time에러 사라짐
-            articleEntity.setFilepath("/img/"+fileName);
-        }
+//        if(!file.isEmpty()){
+//            String projectPath=System.getProperty("user.dir")+"\\src\\main\\resources\\img";
+//
+//            UUID uuid= UUID.randomUUID();
+//
+//            String fileName=uuid+"_"+file.getOriginalFilename();
+//
+//            File saveFile=new File(projectPath,fileName);
+//
+//            file.transferTo(saveFile);
+//
+//            articleEntity.setFilename(fileName);  //articleEntity--> target으로 바꾸니깐 Time에러 사라짐
+//            articleEntity.setFilepath("/img/"+fileName);
+//        }
 
         lostRepository.save(articleEntity);
 
