@@ -80,7 +80,7 @@ public class LostService {
         articleEntity.setLostedDate(lost.getLostedDate());
 
         if(!file.isEmpty()){
-            String projectPath=System.getProperty("user.dir")+"\\src\\main\\resources\\static\\image";
+            String projectPath=System.getProperty("user.dir")+"\\src\\main\\webapp";
 
             UUID uuid= UUID.randomUUID();
 
@@ -91,7 +91,7 @@ public class LostService {
             file.transferTo(saveFile);
 
             articleEntity.setFilename(fileName);  //articleEntity--> target으로 바꾸니깐 Time에러 사라짐
-            articleEntity.setFilepath("/image/"+fileName);
+            articleEntity.setFilepath("/webapp/"+fileName);
         }
 
         lostRepository.save(articleEntity);
