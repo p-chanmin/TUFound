@@ -15,6 +15,8 @@ public class LostForm {
     private Long id;
 
     private Long writerId;
+
+    private String username;
     private String title;
     private String content;
 
@@ -34,6 +36,6 @@ public class LostForm {
 
     public Lost toEntity() {
 
-        return new Lost(id, Member.builder().id(id).build(),title,content,lat,lng,filename,filepath,locationDetail,lostedDate);
+        return new Lost(id, Member.builder().id(writerId).username(username).build(), title,content,lat,lng,filename,filepath,locationDetail,lostedDate);
     }
 }

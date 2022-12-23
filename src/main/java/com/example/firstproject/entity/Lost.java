@@ -16,6 +16,7 @@ public class Lost extends Timestamped{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "lost_id")
     private Long id;
 
     @Setter
@@ -23,6 +24,8 @@ public class Lost extends Timestamped{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member writer;
+
+
 
     @Column
     private String title;
