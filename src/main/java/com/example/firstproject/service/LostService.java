@@ -16,6 +16,7 @@ import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j //로깅
@@ -27,11 +28,11 @@ public class LostService {
     @Autowired
     MemberRepository memberRepository;
 
-    public Lost creates(LostForm lost, MultipartFile file) throws Exception {
+    public LostForm creates(LostForm lost, MultipartFile file) throws Exception {
 
         log.info(lost.toString());
 
-        Lost article=lost.toEntity();
+        Lost article = lost.toEntity();
         log.info(article.toString());
 
         //writer 추가
@@ -57,16 +58,19 @@ public class LostService {
         Lost saved=lostRepository.save(article);
         log.info(saved.toString());
 
-        return saved;
+        return LostForm.toDto(saved);
     }
 
 
     public void show(Model model) {
 
-        List<Lost> articleEntityList= lostRepository.findAll();
+        List<Lost> articles= lostRepository.findAll();
+        List<LostForm> forms = articles.stream().map(a->{
+            return LostForm.toDto(a);
+        }).collect(Collectors.toList());
 
         //2. 가져온 Article 묶음을 뷰로 전달!
-        model.addAttribute("lostList",articleEntityList);
+        model.addAttribute("lostList",forms);
     }
 
     public void edit(Long id, Model model) {

@@ -30,7 +30,7 @@ public class LostController {
     @PostMapping("/create") //새 페이지
     public String creates(LostForm lost, @RequestParam("file") MultipartFile file)throws Exception{
 
-        Lost saved= lostService.creates(lost,file);
+        LostForm saved= lostService.creates(lost,file);
 
         return "redirect:/lost-board/" +saved.getId();
     }

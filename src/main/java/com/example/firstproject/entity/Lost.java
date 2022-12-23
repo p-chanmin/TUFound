@@ -11,7 +11,6 @@ import javax.persistence.*;
 @ToString
 @Getter
 @Setter
-@Data
 public class Lost extends Timestamped{
 
     @Id
@@ -22,7 +21,7 @@ public class Lost extends Timestamped{
     @Setter
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "writer_id")
     private Member writer;
 
 

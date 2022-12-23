@@ -34,8 +34,32 @@ public class LostForm {
 
 
 
-    public Lost toEntity() {
-
-        return new Lost(id, Member.builder().id(writerId).username(username).build(), title,content,lat,lng,filename,filepath,locationDetail,lostedDate);
+    public static LostForm toDto(Lost lost){
+        return new LostForm(
+                lost.getId(),
+                lost.getWriter().getId(),
+                lost.getWriter().getUsername(),
+                lost.getTitle(),
+                lost.getContent(),
+                lost.getLat(),
+                lost.getLng(),
+                lost.getFilename(),
+                lost.getFilepath(),
+                lost.getLocationDetail(),
+                lost.getLostedDate()
+        );
+    }
+    public  Lost toEntity(){
+        return new Lost(id,
+                Member.builder().id(writerId).username(username).build(),
+                title,
+                content,
+                lat,
+                lng,
+                filename,
+                filepath,
+                locationDetail,
+                lostedDate
+        );
     }
 }
