@@ -136,9 +136,11 @@ public class LostService {
 
 
     public void getById(Long id, Model model) {
+
+
         Lost target=lostRepository.findById(id).orElse(null);
 
-        model.addAttribute("lost",target);
+        model.addAttribute("lost",LostForm.toDto(target));
     }
 
     public long getCount(){
